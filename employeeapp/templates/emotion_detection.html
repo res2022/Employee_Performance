@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection</title>
+</head>
+<body>
+    <h1>Emotion Detection</h1>
+    <div id="videoContainer"></div>
+
+    <script>
+        const videoContainer = document.getElementById('videoContainer');
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/emotion_detection/');
+
+        socket.onmessage = function(event) {
+            const image = document.createElement('img');
+            image.src = 'data:image/jpeg;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(event.data)));
+            videoContainer.innerHTML = '';
+            videoContainer.appendChild(image);
+        };
+    </script>
+</body>
+</html>
